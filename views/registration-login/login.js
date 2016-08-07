@@ -26,7 +26,7 @@ export default class Login extends Component {
     constructor(props){
         super(props)
         this.state = {
-            data: {email: "mosesesan@hotmail.com", password: "testpwd"},
+            data: {email: "", password: ""},
             error: {name: "", email: "", password: ""}
         }
     }
@@ -113,20 +113,29 @@ export default class Login extends Component {
         _this.setState({error: error});
 
         if (errCount === 0) {
-            LoginModel.login(_this.state.data, function (success, error) {
-                if (success) {
-                    _this.props.close();
-                }
-                else {
-                    Alert.alert(
-                        'Login Failed',
-                        error,
-                        [
-                            {text: 'Ok', style: 'cancel'}
-                        ]
-                    )
-                }
-            });
+
+            Alert.alert(
+                'API Calls Disabled',
+                "API calls have been disabled for this demo.",
+                [
+                    {text: 'Ok', style: 'cancel'}
+                ]
+            )
+
+            //LoginModel.login(_this.state.data, function (success, error) {
+            //    if (success) {
+            //        _this.props.close();
+            //    }
+            //    else {
+            //        Alert.alert(
+            //            'Login Failed',
+            //            error,
+            //            [
+            //                {text: 'Ok', style: 'cancel'}
+            //            ]
+            //        )
+            //    }
+            //});
         }
     }
 }

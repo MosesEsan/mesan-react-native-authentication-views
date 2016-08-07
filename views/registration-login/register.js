@@ -26,7 +26,7 @@ export default class Registration extends Component {
     constructor(props){
         super(props)
         this.state = {
-            data: {name: "Moses Esan", email: "mosesesan@hotmail.com", password: "testpwd", password_confirmation: "testpwd"},
+            data: {name: "", email: "", password: "", password_confirmation: ""},
             error: {name: "", email: "", password: "", password_confirmation: ""},
         }
     }
@@ -81,6 +81,7 @@ export default class Registration extends Component {
                                 </Text>
                                 <View style={[styles.textInputWrapper]}>
                                     <TextInput style={[styles.textInput]}
+                                               secureTextEntry={true}
                                                value={this.state.data.password_confirmation}
                                                placeholder={"Confirm Password"}
                                                onChangeText={(text) => this.onChangeText("password_confirmation", text)}
@@ -142,24 +143,32 @@ export default class Registration extends Component {
         _this.setState({error: error});
 
         if (errCount === 0){
-            LoginModel.register(_this.state.data, function(success, message, error){
-                if(success) {
-                    Alert.alert(
-                        'Registration Successful',
-                        message,
-                        [
-                            {
-                                text: 'Continue', style: 'cancel', onPress: () => {
-                                    Actions.pop()
-                                }
-                            },
-                        ]
-                    )
+            Alert.alert(
+                'API Calls Disabled',
+                "API calls have been disabled for this demo.",
+                [
+                    {text: 'Ok', style: 'cancel'}
+                ]
+            )
 
-                }else {
-                    _this.setState({error: JSON.parse(error)})
-                }
-            });
+            //LoginModel.register(_this.state.data, function(success, message, error){
+            //    if(success) {
+            //        Alert.alert(
+            //            'Registration Successful',
+            //            message,
+            //            [
+            //                {
+            //                    text: 'Continue', style: 'cancel', onPress: () => {
+            //                        Actions.pop()
+            //                    }
+            //                },
+            //            ]
+            //        )
+            //
+            //    }else {
+            //        _this.setState({error: JSON.parse(error)})
+            //    }
+            //});
         }
     }
 }

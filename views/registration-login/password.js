@@ -27,7 +27,7 @@ export default class Password extends Component {
     constructor(props){
         super(props)
         this.state = {
-            data: {email: "mosesesan@hotmail.com"},
+            data: {email: ""},
             error: {email: ""}
         }
     }
@@ -62,14 +62,14 @@ export default class Password extends Component {
                                                onChangeText={(text) => this.onChangeText("email", text)}
                                                autoFocus ={false}/>
                                 </View>
-                                <Text style={{color: "white", fontSize: 11}}>
+                                <Text style={{color: "#d3222b", fontSize: 11}}>
                                     {_this.state.error["email"]}
                                 </Text>
 
                             </View>
                             <TouchableHighlight onPress={this.recoverPassword}
                                                 underlayColor={"rgba(129, 29, 55, .8)"}
-                                                style={[styles.logInButton, {width: windowWidth - 50, borderRadius: 2}]}>
+                                                style={[styles.logInButton, {width: windowWidth - 50, borderRadius: 2, marginTop: 15}]}>
                                 <Text style={[styles.buttonText]}>SUBMIT</Text>
                             </TouchableHighlight>
                         </View>
@@ -89,27 +89,49 @@ export default class Password extends Component {
 
 
     recoverPassword(){
-        LoginModel.recoverPassword(_this.state.data['email'], function(success, message, error){
-            if (error) {
-                Alert.alert(
-                    'Failed To Send Reminder',
-                    error,
-                    [
-                        {text: 'Ok', style: 'cancel'}
-                    ]
-                )
-            }else {
-                Alert.alert(
-                    'Password Reminder Sent',
-                    message,
-                    [
-                        {text: 'Ok', style: 'cancel'}
-                    ]
-                )
-            }
 
-            _this.setState({forgot: false})
-        });
+        var data = _this.state.data;
+        var error = {};
+        var errCount = 0;
+
+        if(data["email"].length === 0) {
+            error["email"] = "Your email is required!";
+            errCount++;
+        }else error["email"] = "";
+
+
+        _this.setState({error: error});
+
+        if (errCount === 0){
+            Alert.alert(
+                'API Calls Disabled',
+                "API calls have been disabled for this demo.",
+                [
+                    {text: 'Ok', style: 'cancel'}
+                ]
+            )
+            //LoginModel.recoverPassword(_this.state.data['email'], function(success, message, error){
+            //    if (error) {
+            //        Alert.alert(
+            //            'Failed To Send Reminder',
+            //            error,
+            //            [
+            //                {text: 'Ok', style: 'cancel'}
+            //            ]
+            //        )
+            //    }else {
+            //        Alert.alert(
+            //            'Password Reminder Sent',
+            //            message,
+            //            [
+            //                {text: 'Ok', style: 'cancel'}
+            //            ]
+            //        )
+            //    }
+            //});
+
+        }
+
     }
 }
 
