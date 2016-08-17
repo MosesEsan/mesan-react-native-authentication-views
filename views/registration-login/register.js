@@ -14,9 +14,12 @@ import {
     Alert, StatusBar
 } from 'react-native';
 
-import { Router, Scene, Actions} from 'react-native-router-flux';
 import LoginModel from '../../model/login-model.js';
 import NavBar from '../navbar/navbar.js'
+
+import { Actions } from 'react-native-router-flux';
+const BusyIndicator = require('react-native-busy-indicator');
+const loaderHandler = require('react-native-busy-indicator/LoaderHandler');
 
 var {width: windowWidth, height:windowHeight} = Dimensions.get('window');
 var _this;
@@ -31,17 +34,17 @@ export default class Registration extends Component {
         }
     }
 
-    componentDidMount() {
-        UIManager.setLayoutAnimationEnabledExperimental &&   UIManager.setLayoutAnimationEnabledExperimental(true);
-        if (Platform.OS === "ios") StatusBar.setBarStyle('default', true);
-    }
+    //componentDidMount() {
+    //    UIManager.setLayoutAnimationEnabledExperimental &&   UIManager.setLayoutAnimationEnabledExperimental(true);
+    //    if (Platform.OS === "ios") StatusBar.setBarStyle('default', true);
+    //}
 
     render() {
         _this = this;
         return (
             <View style={{position: "relative"}}>
                 <View style={[styles.loginContainer]}>
-                    <NavBar leftBtnImage={require('../../images/close.png')} leftBtn={() => Actions.pop()} rightBtn={null}/>
+                    <NavBar leftBtnImage={require('../../images/left-arrow-filled.png')} leftBtn={() => Actions.pop()} rightBtn={null}/>
                     <View style={[styles.login]}>
                         <View style={[styles.header]}>
                             <Text style={[styles.headerText2, {paddingRight: 75 }]}>CREATE YOUR PROFILE</Text>
@@ -99,6 +102,7 @@ export default class Registration extends Component {
                             <Text style={[styles.buttonText]}>SIGN UP</Text>
                         </TouchableHighlight>
                     </View>
+                    <BusyIndicator />
 
                 </View>
             </View>
@@ -143,6 +147,7 @@ export default class Registration extends Component {
         _this.setState({error: error});
 
         if (errCount === 0){
+            loaderHandler.showLoader("Please Wait..."); // Show indicator with message
             Alert.alert(
                 'API Calls Disabled',
                 "API calls have been disabled for this demo.",
@@ -151,15 +156,20 @@ export default class Registration extends Component {
                 ]
             )
 
+            loaderHandler.hideLoader();  // Hide the loader
+            Actions.pop();
+
+
             //LoginModel.register(_this.state.data, function(success, message, error){
-            //    if(success) {
+            //   loaderHandler.hideLoader();  // Hide the loader
+            //   if(success) {
             //        Alert.alert(
             //            'Registration Successful',
             //            message,
             //            [
             //                {
             //                    text: 'Continue', style: 'cancel', onPress: () => {
-            //                        Actions.pop()
+            //                       Actions.pop({refresh: {reload: true} })
             //                    }
             //                },
             //            ]

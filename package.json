@@ -8,6 +8,7 @@
   "dependencies": {
     "react": "15.2.1",
     "react-native": "^0.31.0",
+    "react-native-busy-indicator": "^1.0.9",
     "react-native-router-flux": "^3.33.2",
     "react-native-simple-modal": "^4.0.1"
   }

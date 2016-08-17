@@ -47,7 +47,7 @@ export default class Password extends Component {
 
 
                         <View style={[styles.header]}>
-                            <Text style={styles.headerText2}>FORGOT YOUR PASSWROD?</Text>
+                            <Text style={styles.headerText2}>FORGOT YOUR PASSWORD?</Text>
                             <Text style={styles.subText}>Enter your email and you will get instructions to reset your password</Text>
                         </View>
 

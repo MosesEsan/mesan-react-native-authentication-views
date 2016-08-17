@@ -1,6 +1,6 @@
 /**
  * Author: Moses Adekunle Esan
- * Date: 8/2/16.
+ * Date: 8/15/16.
  * Project: React Native Authentication Views
  * Description: Welcome Page
  */
@@ -8,22 +8,15 @@
 import React, { Component } from 'react';
 import {
     Text, Platform,
-    View, Dimensions,
-    TextInput,TouchableHighlight,
+    View,TouchableHighlight,
     LayoutAnimation, UIManager, Alert,
     Image, StatusBar
 } from 'react-native';
 
 import { Router, Scene, Actions} from 'react-native-router-flux';
 
-var {width: windowWidth, height:windowHeight} = Dimensions.get('window');
 var _this;
 
-import LoginModel from '../../model/login-model.js';
-import NavBar from '../navbar/navbar.js'
-import Login from './login.js'
-import Password from './password.js'
-import Register from './register.js'
 
 export default class Welcome extends Component {
 
@@ -32,6 +25,10 @@ export default class Welcome extends Component {
         this.state = {
         }
     }
+    //
+    componentWillReceiveProps(newProps) {
+        if (newProps.reload) Actions.pop({refresh: {reload: true} });
+    }
 
     componentDidMount() {
         UIManager.setLayoutAnimationEnabledExperimental &&   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -39,7 +36,7 @@ export default class Welcome extends Component {
     }
 
     render() {
-        _this = this;
+        var _this = this;
         var backgroundImage = require('../../images/bg.jpg');
 
         return (
@@ -59,7 +56,7 @@ export default class Welcome extends Component {
                     <View style={[styles.bottom]}>
 
                         <View style={styles.btnContainer}>
-                                <TouchableHighlight onPress={() => Actions.Login({close: this.props.onLogin})}
+                            <TouchableHighlight onPress={() => Actions.Login()}
                                                 underlayColor={"rgba(129, 29, 55, .8)"}
                                                 style={[styles.logInButton, {borderRightWidth:1, borderRightColor:"#d73840"}, (this.state.verification) ? styles.resendButton : null]}>
                                 <Text style={styles.buttonText}>SIGN IN</Text>
@@ -91,28 +88,6 @@ export default class Welcome extends Component {
                 {text: 'Ok', style: 'cancel'}
             ]
         );
-    }
-}
-
-export default class LoginRegister extends Component {
-
-    constructor(props){
-        super(props)
-        this.state = {
-        }
-    }
-
-    render() {
-        return (
-            <Router>
-                <Scene key="root" hideNavBar={true}>
-                    <Scene key="pageOne" component={Welcome} title="PageOne" initial={true} onLogin={this.props.onLogin}/>
-                    <Scene key="Login" component={Login} title="PageTwo"/>
-                    <Scene key="Password" component={Password} title="PageThree"/>
-                    <Scene key="Register" component={Register} title="PageFour"/>
-                </Scene>
-            </Router>
-        )
     }
 }
 

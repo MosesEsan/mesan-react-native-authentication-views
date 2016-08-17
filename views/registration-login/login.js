@@ -14,9 +14,12 @@ import {
     Alert, StatusBar
 } from 'react-native';
 
-import { Router, Scene, Actions} from 'react-native-router-flux';
 import LoginModel from '../../model/login-model.js';
 import NavBar from '../navbar/navbar.js'
+
+import { Actions } from 'react-native-router-flux';
+const BusyIndicator = require('react-native-busy-indicator');
+const loaderHandler = require('react-native-busy-indicator/LoaderHandler');
 
 var {width: windowWidth, height:windowHeight} = Dimensions.get('window');
 var _this;
@@ -32,8 +35,8 @@ export default class Login extends Component {
     }
 
     componentDidMount() {
-        UIManager.setLayoutAnimationEnabledExperimental &&   UIManager.setLayoutAnimationEnabledExperimental(true);
-        if (Platform.OS === "ios") StatusBar.setBarStyle('default', true);
+        //if (Platform.OS === "ios") StatusBar.setBarStyle('light-content', true);
+        //UIManager.setLayoutAnimationEnabledExperimental &&   UIManager.setLayoutAnimationEnabledExperimental(true);
     }
 
     render() {
@@ -41,7 +44,7 @@ export default class Login extends Component {
         return (
             <View style={{position: "relative"}}>
                 <View style={[styles.loginContainer]}>
-                    <NavBar leftBtnImage={require('../../images/close.png')} leftBtn={() => Actions.pop()} rightBtn={Actions.Password}/>
+                    <NavBar leftBtnImage={require('../../images/left-arrow-filled.png')} leftBtn={() => Actions.pop()} rightBtn={Actions.Password}/>
                     <View style={[styles.login]}>
                         <View style={[styles.header]}>
                             <Text style={[styles.headerText2, {paddingRight: 75}]}>SIGN IN WITH YOUR E-MAIL</Text>
@@ -78,6 +81,7 @@ export default class Login extends Component {
                             </TouchableHighlight>
                         </View>
                     </View>
+                    <BusyIndicator />
 
                 </View>
             </View>
@@ -113,7 +117,7 @@ export default class Login extends Component {
         _this.setState({error: error});
 
         if (errCount === 0) {
-
+            loaderHandler.showLoader("Please Wait..."); // Show indicator with message
             Alert.alert(
                 'API Calls Disabled',
                 "API calls have been disabled for this demo.",
@@ -122,10 +126,15 @@ export default class Login extends Component {
                 ]
             )
 
+            loaderHandler.hideLoader();  // Hide the loader
+            //_this.props.close();
+            Actions.pop({refresh: {reload: true} });
+
             //LoginModel.login(_this.state.data, function (success, error) {
-            //    if (success) {
-            //        _this.props.close();
-            //    }
+            //
+            //loaderHandler.hideLoader();  // Hide the loader
+            //
+            //if (success) Actions.pop({refresh: {reload: true} })
             //    else {
             //        Alert.alert(
             //            'Login Failed',
