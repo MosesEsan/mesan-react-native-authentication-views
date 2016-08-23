@@ -15,8 +15,14 @@ import {
 
 import { Router, Scene, Actions} from 'react-native-router-flux';
 
+
+var {FBLogin, FBLoginManager} = require('react-native-facebook-login');
+
+import LoginModel from '../../model/login-model.js';
 var _this;
 
+const BusyIndicator = require('react-native-busy-indicator');
+const loaderHandler = require('react-native-busy-indicator/LoaderHandler');
 
 export default class Welcome extends Component {
 
@@ -32,7 +38,7 @@ export default class Welcome extends Component {
 
     componentDidMount() {
         UIManager.setLayoutAnimationEnabledExperimental &&   UIManager.setLayoutAnimationEnabledExperimental(true);
-        if (Platform.OS === "ios") StatusBar.setBarStyle('default', true);
+        //if (Platform.OS === "ios") StatusBar.setBarStyle('default', true);
     }
 
     render() {
@@ -73,21 +79,35 @@ export default class Welcome extends Component {
                                                 style={[styles.socialButton, (this.state.verification) ? styles.resendButton : null]}>
                                 <Text style={styles.buttonText}>SIGN IN WITH FACEBOOK</Text>
                             </TouchableHighlight>
+
+
+
                         </View>
                     </View>
+                    <BusyIndicator />
                 </View>
+
+
+
             </View>
         );
     }
 
     logInWithFacebook(){
-        Alert.alert(
-            'Coming Soon',
-            'This functionality is currently in development.',
-            [
-                {text: 'Ok', style: 'cancel'}
-            ]
-        );
+        loaderHandler.showLoader();
+        LoginModel.registerWithFacebook(function(success, error){
+            loaderHandler.hideLoader();  // Hide the loader
+            if (success) Actions.pop({refresh: {reload: true} })
+            else {
+                Alert.alert(
+                    'Login Failed',
+                    error,
+                    [
+                        {text: 'Ok', style: 'cancel'}
+                    ]
+                )
+            }
+        });
     }
 }
 

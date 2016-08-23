@@ -69,7 +69,7 @@ export default class Login extends Component {
                                                onChangeText={(text) => this.onChangeText("password", text)}
                                                autoFocus ={false}/>
                                 </View>
-                                <Text style={{color: "#d3222b", fontSize: 11}}>
+                                <Text style={{color: "#d3222", fontSize: 11}}>
                                     {_this.state.error["password"]}
                                 </Text>
 
