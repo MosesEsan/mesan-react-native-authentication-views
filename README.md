@@ -10,6 +10,6 @@ React Native Registration, Login and Forgot Password Views based on a design fou
 <li>Test on Android</li>
 <li>Keyboard Hiding</li>
 <li>Add Log Out View</li>
-<li>Add SMS Verification View</li>
+<li><strike>Add SMS Verification View</strike></li>
 <li><strike>Add Log In With Facebook Functionality</strike></li>
 </ul>
