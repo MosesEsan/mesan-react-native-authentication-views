@@ -64,7 +64,7 @@ export default class Main extends Component {
 
 
 
-                    <Scene key="login" hideNavBar={true} direction="vertical" schema="modal" hideNavBar={true} title="Login"  panHandlers={_panResponder.panHandlers}>
+                    <Scene key="login" hideNavBar={true} direction="vertical" schema="modal"  title="Login"  panHandlers={_panResponder.panHandlers}>
                         <Scene key="welcome" component={Welcome} title="PageOne" initial={true} onLogin={this.props.onLogin}/>
                         <Scene key="Login" component={Login} title="Login"/>
                         <Scene key="Password" component={Password} title="PageThree"/>

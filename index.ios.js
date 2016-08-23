@@ -9,6 +9,6 @@ import {
 } from 'react-native';
 
 
-import Home from './views/main.js'
+import Main from './views/main.js'
 
-AppRegistry.registerComponent('ReactNativeRegisterLoginViews', () => Home);
+AppRegistry.registerComponent('ReactNativeRegisterLoginViews', () => Main);

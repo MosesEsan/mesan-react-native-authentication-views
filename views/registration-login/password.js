@@ -54,7 +54,7 @@ export default class Password extends Component {
 
                         <View style={[styles.loginWrapper]}>
 
-                            <View style={[styles.textInputContainer, (this.state.verification) ? styles.hiddenTextInputContainer : null]}>
+                            <View style={[styles.textInputContainer]}>
                                 <View style={[styles.textInputWrapper]}>
                                     <TextInput style={[styles.textInput]}
                                                value={this.state.data.email}
