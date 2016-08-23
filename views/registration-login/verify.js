@@ -39,9 +39,11 @@ export default class Password extends Component {
         UIManager.setLayoutAnimationEnabledExperimental &&   UIManager.setLayoutAnimationEnabledExperimental(true);
         if (Platform.OS === "ios") StatusBar.setBarStyle('default', true);
 
-        var data = this.state.data;
-        data["email"] = this.props.email;
-        this.setState({data: data, email: this.props.email})
+        if (this.props.email !== undefined){
+            var data = this.state.data;
+            data["email"] = (this.props.email) ;
+            this.setState({data: data, email: this.props.email})
+        }
     }
 
     render() {
@@ -143,8 +145,9 @@ export default class Password extends Component {
                        ]
                    )
                }else {
-                   alert("failed");
-                    _this.setState({error: JSON.parse(error)})
+                   var errormsg = _this.state.error;
+                   errormsg["email"] = error;
+                   _this.setState({error: errormsg});
                 }
             });
         }

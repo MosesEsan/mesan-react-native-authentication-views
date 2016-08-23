@@ -29,7 +29,7 @@ export default class Registration extends Component {
     constructor(props){
         super(props)
         this.state = {
-            data: {name: "Moses", email: "mosesesan@hotmail.com ", password: "testpwd", password_confirmation: "testpwd"},
+            data: {name: "", email: "", password: "", password_confirmation: ""},
             error: {name: "", email: "", password: "", password_confirmation: ""},
         }
     }

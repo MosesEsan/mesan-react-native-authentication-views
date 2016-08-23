@@ -30,7 +30,7 @@ export default class Password extends Component {
     constructor(props){
         super(props)
         this.state = {
-            data: {one: "0", two: "1", three: "5", four: "6", five: "6"}
+            data: {one: "", two: "", three: "", four: "", five: ""}
         }
     }
 
