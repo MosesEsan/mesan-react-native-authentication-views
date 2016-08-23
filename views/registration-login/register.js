@@ -29,7 +29,7 @@ export default class Registration extends Component {
     constructor(props){
         super(props)
         this.state = {
-            data: {name: "", email: "", password: "", password_confirmation: ""},
+            data: {name: "Moses", email: "mosesesan@hotmail.com ", password: "testpwd", password_confirmation: "testpwd"},
             error: {name: "", email: "", password: "", password_confirmation: ""},
         }
     }
@@ -148,34 +148,15 @@ export default class Registration extends Component {
 
         if (errCount === 0){
             loaderHandler.showLoader("Please Wait..."); // Show indicator with message
-            Alert.alert(
-                'API Calls Disabled',
-                "API calls have been disabled for this demo.",
-                [
-                    {text: 'Ok', style: 'cancel'}
-                ]
-            )
 
+
+            Actions.Verify({email: _this.state.data.email});
             loaderHandler.hideLoader();  // Hide the loader
-            Actions.pop();
-
-
             //LoginModel.register(_this.state.data, function(success, message, error){
             //   loaderHandler.hideLoader();  // Hide the loader
             //   if(success) {
-            //        Alert.alert(
-            //            'Registration Successful',
-            //            message,
-            //            [
-            //                {
-            //                    text: 'Continue', style: 'cancel', onPress: () => {
-            //                       Actions.pop({refresh: {reload: true} })
-            //                    }
-            //                },
-            //            ]
-            //        )
-            //
-            //    }else {
+            //       Actions.Verify({email: _this.state.data.email});
+            //   }else {
             //        _this.setState({error: JSON.parse(error)})
             //    }
             //});

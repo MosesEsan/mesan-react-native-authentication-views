@@ -26,9 +26,10 @@ export default class Home extends Component {
         var _this = this;
         if (Platform.OS === "ios") StatusBar.setBarStyle('light-content', true);
         UIManager.setLayoutAnimationEnabledExperimental &&   UIManager.setLayoutAnimationEnabledExperimental(true);
-        LoginModel.checkTokenExist(function(exist){
-            if (!exist) Actions.login(); //Open Login Page
-        });
+        //LoginModel.checkTokenExist(function(exist){
+        //    if (!exist)
+        //});
+            Actions.login(); //Open Login Page
     }
 
     render() {

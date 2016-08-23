@@ -48,6 +48,11 @@ export default class Login extends Component {
                     <View style={[styles.login]}>
                         <View style={[styles.header]}>
                             <Text style={[styles.headerText2, {paddingRight: 75}]}>SIGN IN WITH YOUR E-MAIL</Text>
+                            <Text style={styles.subText}>
+                                <Text style={[styles.subText, {color:"#CB1B22"}]} onPress={() => Actions.Verify()}>Click here </Text>
+                                If you need to verify your account
+                            </Text>
+
                         </View>
                         <View style={[styles.loginWrapper]}>
                             <View style={[styles.textInputContainer]}>
@@ -69,7 +74,7 @@ export default class Login extends Component {
                                                onChangeText={(text) => this.onChangeText("password", text)}
                                                autoFocus ={false}/>
                                 </View>
-                                <Text style={{color: "#d3222", fontSize: 11}}>
+                                <Text style={{color: "#d3222b", fontSize: 11}}>
                                     {_this.state.error["password"]}
                                 </Text>
 

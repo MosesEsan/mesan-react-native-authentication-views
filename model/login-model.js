@@ -54,6 +54,40 @@ var LoginModel = {
             .done();
     },
 
+    registerWithFacebook: function(callback){
+        var _this = this;
+        FBLoginManager.loginWithPermissions(["public_profile","email"], function(error, data){
+            if (!error){
+                var credentials = data.credentials;
+
+
+                var api = `https://graph.facebook.com/v2.3/${credentials.userId}?fields=name,email&access_token=${credentials.token}`;
+
+                fetch(api)
+                    .then((response) => response.json())
+                    .then((responseData) => {
+                        var data =  {
+                            name : responseData.name,
+                            email: responseData.email,
+                            fbToken: credentials.token,
+                            fbID: credentials.userId
+                        }
+
+                        _this.register(data, callback, "fb");
+                        //save the users info
+                        //generate a token adn log user in
+                    }).catch(error => {
+                        callback(null, error);
+                    })
+                    .done();
+
+
+            }else{
+                callback(data, error);
+            }
+        })
+    },
+
     login: function(data, callback){
         var url ="http://localhost:8888/mesan-laravel-jwt-authentication/public/api/login";
         fetch(url, {
@@ -72,6 +106,41 @@ var LoginModel = {
                     AsyncStorage.setItem('token',responseData.token);
                     callback(true, null);
                 }
+            }).catch(error => {
+                callback(false, error)
+            })
+            .done();
+    },
+
+    sendVerification: function(email, phone, type, callback){
+        var data = {"email" : email, "phone_number": phone, "v_type": type}
+        var url ="http://localhost:8888/mesan-laravel-jwt-authentication/public/api/verification";
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then((response) => response.json())
+            .then((responseData) => {
+                if (responseData.success) callback(true, responseData.message, null)
+                else callback(false, null, responseData.error)
+            }).catch(error => {
+                callback(false, error)
+            })
+            .done();
+    },
+
+    verifyCode: function(code, callback){
+        var url ="http://localhost:8888/mesan-laravel-jwt-authentication/public/api/verify/sms/"+code;
+        console.log(url)
+        fetch(url).then((response) => response.json())
+            .then((responseData) => {
+                console.log(responseData)
+                if (responseData.success) callback(true, responseData.message, null)
+                else callback(false, null, responseData.error)
             }).catch(error => {
                 callback(false, error)
             })
@@ -133,39 +202,6 @@ var LoginModel = {
         });
     },
 
-    registerWithFacebook: function(callback){
-        var _this = this;
-        FBLoginManager.loginWithPermissions(["public_profile","email"], function(error, data){
-            if (!error){
-                var credentials = data.credentials;
-
-
-                var api = `https://graph.facebook.com/v2.3/${credentials.userId}?fields=name,email&access_token=${credentials.token}`;
-
-                fetch(api)
-                    .then((response) => response.json())
-                    .then((responseData) => {
-                        var data =  {
-                            name : responseData.name,
-                            email: responseData.email,
-                            fbToken: credentials.token,
-                            fbID: credentials.userId
-                        }
-
-                        _this.register(data, callback, "fb");
-                        //save the users info
-                        //generate a token adn log user in
-                    }).catch(error => {
-                        callback(null, error);
-                    })
-                    .done();
-
-
-            }else{
-                callback(data, error);
-            }
-        })
-    },
 }
 
 module.exports = LoginModel;

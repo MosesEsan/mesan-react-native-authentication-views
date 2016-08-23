@@ -173,6 +173,13 @@ var styles = StyleSheet.create({
         color: "#86858A",
         textAlign: "left"
     },
+    codeInput:{
+        height: 45,
+        flex:1,
+        color: "#86858A",
+        //borderWidth:1, borderColor: "red",
+        textAlign: "center", fontSize: 30
+    },
     logInButton:{
         height: 48,
         justifyContent: 'center',
@@ -196,7 +203,7 @@ var styles = StyleSheet.create({
     buttonText:{
         textAlign: 'center',
         color: "#F2F3F4",
-        fontSize: 12    ,
+        fontSize: 14    ,
         fontWeight: "600"
     },
 

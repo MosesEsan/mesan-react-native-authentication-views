@@ -14,6 +14,8 @@ import Welcome from './registration-login/welcome.js'
 import Login from './registration-login/login.js'
 import Register from './registration-login/register.js'
 import Password from './registration-login/password.js'
+import Verify from './registration-login/verify.js'
+import VerificationCode from './registration-login/verification_code.js'
 
 import LoginModel from '../model/login-model.js';
 
@@ -65,10 +67,12 @@ export default class Main extends Component {
 
 
                     <Scene key="login" hideNavBar={true} direction="vertical" schema="modal"  title="Login"  panHandlers={_panResponder.panHandlers}>
-                        <Scene key="welcome" component={Welcome} title="PageOne" initial={true} onLogin={this.props.onLogin}/>
+                        <Scene key="welcome" component={Welcome} title="Welcome" initial={true} onLogin={this.props.onLogin}/>
                         <Scene key="Login" component={Login} title="Login"/>
-                        <Scene key="Password" component={Password} title="PageThree"/>
-                        <Scene key="Register" component={Register} title="PageFour"/>
+                        <Scene key="Password" component={Password} title="Password"/>
+                        <Scene key="Register" component={Register} title="Register"/>
+                        <Scene key="Verify" component={Verify} title="Verify"/>
+                        <Scene key="VerificationCode" component={VerificationCode} title="VerificationCode"/>
                     </Scene>
                 </Scene>
             </Router>
