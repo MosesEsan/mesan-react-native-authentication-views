@@ -183,23 +183,23 @@ var LoginModel = {
 
     logout(){
         AsyncStorage.removeItem('token'); //clear token on device
-        this.checkTokenExist(function(exist, token){
-            if (exist){ //invalidate token
-                var data = {"token" : token}
-                var url ="http://localhost:8888/mesan-laravel-jwt-authentication/public/api/logout";
-                fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                })
-                    .then((response) => response.json())
-                    .then((responseData) => {})
-                    .done();
-            }
-        });
+        //this.checkTokenExist(function(exist, token){
+        //    if (exist){ //invalidate token
+        //        var data = {"token" : token}
+        //        var url ="http://localhost:8888/mesan-laravel-jwt-authentication/public/api/logout";
+        //        fetch(url, {
+        //            method: 'POST',
+        //            headers: {
+        //                'Accept': 'application/json',
+        //                'Content-Type': 'application/json'
+        //            },
+        //            body: JSON.stringify(data)
+        //        })
+        //            .then((response) => response.json())
+        //            .then((responseData) => {})
+        //            .done();
+        //    }
+        //});
     },
 
 }

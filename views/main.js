@@ -16,6 +16,7 @@ import Register from './registration-login/register.js'
 import Password from './registration-login/password.js'
 import Verify from './registration-login/verify.js'
 import VerificationCode from './registration-login/verification_code.js'
+import LogOut from './registration-login/logout.js'
 
 import LoginModel from '../model/login-model.js';
 
@@ -74,6 +75,7 @@ export default class Main extends Component {
                         <Scene key="Verify" component={Verify} title="Verify"/>
                         <Scene key="VerificationCode" component={VerificationCode} title="VerificationCode"/>
                     </Scene>
+                    <Scene key="logout" component={LogOut} title="LogOut"direction="vertical" schema="modal" hideNavBar={true} d/>
                 </Scene>
             </Router>
         )
