@@ -105,6 +105,7 @@ var styles = StyleSheet.create({
         bottom: 0,
         left: 0,
         flex: 1,
+        width: windowWidth,
         height: windowHeight - 94
     },
     overlay:{
@@ -181,14 +182,14 @@ var styles = StyleSheet.create({
         textAlign: "center", fontSize: 30
     },
     logInButton:{
-        height: 48,
+        height: (windowHeight/100) * 8.450704225352112,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor:  "#CB1B22",
         width: windowWidth /2
     },
     socialButton:{
-        height: 48,
+        height: (windowHeight/100) * 8.450704225352112,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor:  "#CB1B22",
@@ -222,7 +223,7 @@ var styles = StyleSheet.create({
 
     btnContainer:{
         width: windowWidth,
-        height: 48,
+        height: (windowHeight/100) * 8.450704225352112,
         flexDirection: "row",
         //borderWidth:1, borderColor: "purple",
     },
