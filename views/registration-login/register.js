@@ -29,7 +29,7 @@ export default class Registration extends Component {
     constructor(props){
         super(props)
         this.state = {
-            data: {name: "", email: "", password: "", password_confirmation: ""},
+            data: {name: "Moses", email: "mosesesan@hotmail.com", password: "Adekunle90", password_confirmation: "Adekunle90"},
             error: {name: "", email: "", password: "", password_confirmation: ""},
         }
     }
@@ -149,17 +149,15 @@ export default class Registration extends Component {
         if (errCount === 0){
             loaderHandler.showLoader("Please Wait..."); // Show indicator with message
 
-
-            Actions.Verify({email: _this.state.data.email});
-            loaderHandler.hideLoader();  // Hide the loader
-            //LoginModel.register(_this.state.data, function(success, message, error){
-            //   loaderHandler.hideLoader();  // Hide the loader
-            //   if(success) {
-            //       Actions.Verify({email: _this.state.data.email});
-            //   }else {
-            //        _this.setState({error: JSON.parse(error)})
-            //    }
-            //});
+            LoginModel.register(_this.state.data, function(success, message, error){
+               loaderHandler.hideLoader();  // Hide the loader
+               if(success) {
+                   Actions.Verify({email: _this.state.data.email});
+                   loaderHandler.hideLoader();  // Hide the loader
+               }else {
+                    _this.setState({error: JSON.parse(error)})
+                }
+            });
         }
     }
 }

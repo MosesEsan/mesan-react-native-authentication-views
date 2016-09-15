@@ -99,6 +99,7 @@ export default class Welcome extends Component {
             loaderHandler.hideLoader();  // Hide the loader
             if (success) Actions.pop({refresh: {reload: true} })
             else {
+                console.log(error);
                 Alert.alert(
                     'Login Failed',
                     error,

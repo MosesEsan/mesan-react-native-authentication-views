@@ -16,10 +16,10 @@ var {FBLogin, FBLoginManager} = require('react-native-facebook-login');
 
 var LoginModel = {
     register: function(data, callback, type){
-        var url ="http://localhost:8888/mesan-laravel-jwt-authentication/public/api/register";
+        var url ="http://ec2-54-153-72-254.us-west-1.compute.amazonaws.com/api/register";
 
         if (type === "fb")
-            url ="http://localhost:8888/mesan-laravel-jwt-authentication/public/api/registerwithfb";
+            url ="http://ec2-54-153-72-254.us-west-1.compute.amazonaws.com/api/registerwithfb";
 
         fetch(url, {
             method: 'POST',
@@ -31,7 +31,6 @@ var LoginModel = {
         })
             .then((response) => response.json())
             .then((responseData) => {
-
 
                 if(type === "fb"){
                     if (responseData.error) callback(false, responseData.error)
@@ -48,7 +47,6 @@ var LoginModel = {
 
 
             }).catch(error => {
-                console.log(error)
                 callback(false, null, error)
             })
             .done();
@@ -72,11 +70,11 @@ var LoginModel = {
                             fbToken: credentials.token,
                             fbID: credentials.userId
                         }
-
                         _this.register(data, callback, "fb");
                         //save the users info
                         //generate a token adn log user in
                     }).catch(error => {
+                        alert("err1")
                         callback(null, error);
                     })
                     .done();
@@ -89,7 +87,7 @@ var LoginModel = {
     },
 
     login: function(data, callback){
-        var url ="http://localhost:8888/mesan-laravel-jwt-authentication/public/api/login";
+        var url ="http://ec2-54-153-72-254.us-west-1.compute.amazonaws.com/api/login";
         fetch(url, {
             method: 'POST',
             headers: {
@@ -114,7 +112,7 @@ var LoginModel = {
 
     sendVerification: function(email, phone, type, callback){
         var data = {"email" : email, "phone_number": phone, "v_type": type}
-        var url ="http://localhost:8888/mesan-laravel-jwt-authentication/public/api/verification";
+        var url ="http://ec2-54-153-72-254.us-west-1.compute.amazonaws.com/api/verification";
         fetch(url, {
             method: 'POST',
             headers: {
@@ -134,11 +132,9 @@ var LoginModel = {
     },
 
     verifyCode: function(code, callback){
-        var url ="http://localhost:8888/mesan-laravel-jwt-authentication/public/api/verify/sms/"+code;
-        console.log(url)
+        var url ="http://ec2-54-153-72-254.us-west-1.compute.amazonaws.com/api/verify/sms/"+code;
         fetch(url).then((response) => response.json())
             .then((responseData) => {
-                console.log(responseData)
                 if (responseData.success) callback(true, responseData.message, null)
                 else callback(false, null, responseData.error)
             }).catch(error => {
@@ -149,7 +145,7 @@ var LoginModel = {
 
     recoverPassword: function(email, callback){
         var data = {"email" : email}
-        var url ="http://localhost:8888/mesan-laravel-jwt-authentication/public/api/recover";
+        var url ="http://ec2-54-153-72-254.us-west-1.compute.amazonaws.com/api/recover";
         fetch(url, {
             method: 'POST',
             headers: {
@@ -186,7 +182,7 @@ var LoginModel = {
         //this.checkTokenExist(function(exist, token){
         //    if (exist){ //invalidate token
         //        var data = {"token" : token}
-        //        var url ="http://localhost:8888/mesan-laravel-jwt-authentication/public/api/logout";
+        //        var url ="http://ec2-54-153-72-254.us-west-1.compute.amazonaws.com/api/logout";
         //        fetch(url, {
         //            method: 'POST',
         //            headers: {

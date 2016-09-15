@@ -29,7 +29,7 @@ export default class Login extends Component {
     constructor(props){
         super(props)
         this.state = {
-            data: {email: "", password: ""},
+            data: {email: "mosesesan@hotmail.com", password: "Adekunle90",},
             error: {name: "", email: "", password: ""}
         }
     }
@@ -123,33 +123,20 @@ export default class Login extends Component {
 
         if (errCount === 0) {
             loaderHandler.showLoader("Please Wait..."); // Show indicator with message
-            Alert.alert(
-                'API Calls Disabled',
-                "API calls have been disabled for this demo.",
-                [
-                    {text: 'Ok', style: 'cancel'}
-                ]
-            )
 
-            loaderHandler.hideLoader();  // Hide the loader
-            //_this.props.close();
-            Actions.pop({refresh: {reload: true} });
-
-            //LoginModel.login(_this.state.data, function (success, error) {
-            //
-            //loaderHandler.hideLoader();  // Hide the loader
-            //
-            //if (success) Actions.pop({refresh: {reload: true} })
-            //    else {
-            //        Alert.alert(
-            //            'Login Failed',
-            //            error,
-            //            [
-            //                {text: 'Ok', style: 'cancel'}
-            //            ]
-            //        )
-            //    }
-            //});
+            LoginModel.login(_this.state.data, function (success, error) {
+                loaderHandler.hideLoader();  // Hide the loader
+                if (success) Actions.pop({refresh: {reload: true} })
+                else {
+                    Alert.alert(
+                        'Login Failed',
+                        error,
+                        [
+                            {text: 'Ok', style: 'cancel'}
+                        ]
+                    )
+                }
+            });
         }
     }
 }

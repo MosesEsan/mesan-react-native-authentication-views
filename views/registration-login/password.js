@@ -103,32 +103,25 @@ export default class Password extends Component {
         _this.setState({error: error});
 
         if (errCount === 0){
-            Alert.alert(
-                'API Calls Disabled',
-                "API calls have been disabled for this demo.",
-                [
-                    {text: 'Ok', style: 'cancel'}
-                ]
-            )
-            //LoginModel.recoverPassword(_this.state.data['email'], function(success, message, error){
-            //    if (error) {
-            //        Alert.alert(
-            //            'Failed To Send Reminder',
-            //            error,
-            //            [
-            //                {text: 'Ok', style: 'cancel'}
-            //            ]
-            //        )
-            //    }else {
-            //        Alert.alert(
-            //            'Password Reminder Sent',
-            //            message,
-            //            [
-            //                {text: 'Ok', style: 'cancel'}
-            //            ]
-            //        )
-            //    }
-            //});
+            LoginModel.recoverPassword(_this.state.data['email'], function(success, message, error){
+                if (error) {
+                    Alert.alert(
+                        'Failed To Send Reminder',
+                        error,
+                        [
+                            {text: 'Ok', style: 'cancel'}
+                        ]
+                    )
+                }else {
+                    Alert.alert(
+                        'Password Reminder Sent',
+                        message,
+                        [
+                            {text: 'Ok', style: 'cancel'}
+                        ]
+                    )
+                }
+            });
 
         }
 
