@@ -12,7 +12,7 @@ Views include:
 Based on design found on <a href="https://dribbble.com/shots/1908354-Powerdot-App-Signup-2">Dribbble.</a>
 
 <h2>Demo</h2>
-<a href="http://esandigital.com/blog/2016/08/17/react-native-registration-login-and-forgot-password-views/">View Demo</a>
+<a href="https://appetize.io/app/0hn1p6wu6ewx8z6rdrmrtm9ubc?device=iphone5s&scale=75&orientation=portrait&osVersion=9.3">View Demo</a>
 
 <h1>Screenshots</h1>
 <img src="https://github.com/MosesEsan/mesan-react-native-register-login-views/blob/master/Screenshots/Welcome.png" alt="Welcome"

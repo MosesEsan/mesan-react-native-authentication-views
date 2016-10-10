@@ -75,7 +75,7 @@ export default class Main extends Component {
                         <Scene key="Verify" component={Verify} title="Verify"/>
                         <Scene key="VerificationCode" component={VerificationCode} title="VerificationCode"/>
                     </Scene>
-                    <Scene key="logout" component={LogOut} title="LogOut"direction="vertical" schema="modal" hideNavBar={true} d/>
+                    <Scene key="logout" component={LogOut} title="LogOut"direction="vertical" schema="modal" hideNavBar={true}/>
                 </Scene>
             </Router>
         )

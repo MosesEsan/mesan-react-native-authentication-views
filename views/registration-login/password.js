@@ -103,7 +103,10 @@ export default class Password extends Component {
         _this.setState({error: error});
 
         if (errCount === 0){
+            loaderHandler.showLoader("Please Wait..."); // Show indicator with message
+
             LoginModel.recoverPassword(_this.state.data['email'], function(success, message, error){
+                loaderHandler.hideLoader();  // Hide the loader
                 if (error) {
                     Alert.alert(
                         'Failed To Send Reminder',

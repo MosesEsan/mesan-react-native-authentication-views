@@ -12,8 +12,6 @@ const styles = require('../../styles/navbar');
 
 var _this;
 
-
-
 var NAVBAR_HEIGHT = (Platform.OS === 'ios') ? 64 : 54;
 
 var {width: windowWidth, height:windowHeight} = Dimensions.get('window');
@@ -22,32 +20,14 @@ windowHeight = (Platform.OS === 'ios') ? windowHeight : windowHeight - 20;
 
 
 var NavBar = React.createClass({
-    getInitialState() {
-        return {
-            hide: false,
-            moveAnim: new Animated.ValueXY(),
-            active: true,
-            index: 1,
-            navTop: -NAVBAR_HEIGHT,
-            searchTop: -NAVBAR_HEIGHT* 2,
-            title: "Jean",
-            right: false,
-            searchTerm: '' ,
-            searchBox: true,
-            rightType: "text"
-        }
-    },
-
     componentDidMount() {
         _this = this;
     },
-
-
     render() {
         UIManager.setLayoutAnimationEnabledExperimental &&   UIManager.setLayoutAnimationEnabledExperimental(true);
         return (
             <Animated.View
-                style={[styles.header, {transform: this.state.moveAnim.getTranslateTransform()}, (this.props.color) ? {backgroundColor: this.props.color} : null]}>
+                style={[styles.header, (this.props.color) ? {backgroundColor: this.props.color} : null]}>
 
                 <View style={{marginTop: (Platform.OS === 'ios') ? 20 : 5, height: 44, overflow: "hidden", position: "relative"}}>
 
@@ -71,38 +51,7 @@ var NavBar = React.createClass({
                 </View>
             </Animated.View>
         )
-    },
-
-    showNavbar(){
-        Animated.parallel([
-            Animated.spring( this.state.moveAnim, {toValue: {x: 0, y:0}} )
-        ]).start();
-    },
-
-    hideNavbar(){
-        Animated.parallel([
-            Animated.spring( this.state.moveAnim, {toValue: {x: 0, y:-(NAVBAR_HEIGHT)}} )
-        ]).start();
-    },
-
-    leftNavBtn(){
-        this.setState({title:"", navTop: -(NAVBAR_HEIGHT)});
-        this._leftCallback();
-    },
-
-    rightNavBtn(){
-        var _this = this;
-        this._rightCallback();
-        _this.setState({title: "", navTop: -(NAVBAR_HEIGHT)});
-    },
-
-
-    clampText(text){
-        if (text.length > 20) text =  text.substring(0, 15)+"...";
-
-        return text;
-    },
-
+    }
 });
 
 module.exports = NavBar;
