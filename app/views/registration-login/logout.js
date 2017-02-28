@@ -6,38 +6,18 @@
  */
 
 import React, { Component } from 'react';
-import {
-    Text, Platform,
-    View, Dimensions,
-    TextInput,TouchableHighlight,
-    LayoutAnimation, UIManager,
-    Alert, StatusBar
-} from 'react-native';
+import { Text, View, Dimensions, TextInput,TouchableHighlight } from 'react-native';
 
-import { Router, Scene, Actions} from 'react-native-router-flux';
-
-import LoginModel from '../../model/login-model.js';
-import NavBar from '../navbar/navbar.js'
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import * as ReduxActions from '../../actions';
+import { Actions } from 'react-native-router-flux';
 
 var {width: windowWidth, height:windowHeight} = Dimensions.get('window');
-var _this;
 
-export default class Logout extends Component {
-
-    constructor(props){
-        super(props)
-        this.state = {
-            data: {email: ""},
-            error: {email: ""}
-        }
-    }
-
-    componentDidMount() {
-        UIManager.setLayoutAnimationEnabledExperimental &&   UIManager.setLayoutAnimationEnabledExperimental(true);
-    }
+class Logout extends Component {
 
     render() {
-        _this = this;
         return (
             <View style={{position: "relative"}}>
                 <View style={[styles.loginContainer]}>
@@ -50,7 +30,7 @@ export default class Logout extends Component {
 
 
                             <View style={{position: "absolute", bottom: 0, left: 0, right: 0}}>
-                                <TouchableHighlight onPress={this.logout}
+                                <TouchableHighlight onPress={this.props.logout}
                                                     underlayColor={"rgba(129, 29, 55, .8)"}
                                                     style={[styles.logInButton, {width: windowWidth - 50, borderRadius: 2, marginTop: 15}]}>
                                     <Text style={[styles.buttonText]}>LOG OUT</Text>
@@ -68,11 +48,24 @@ export default class Logout extends Component {
             </View>
         );
     }
-
-    logout(){
-        LoginModel.logout();
-        Actions.pop({refresh: {reload: true} });
-    }
 }
 
+// The function is used to take the Redux Store, then take some data from it,
+// and insert it into the props for our component.
+function mapStateToProps(state, props) {
+    return {};
+}
+
+// Doing this merges our actions into the component’s props,
+// while wrapping them in dispatch() so that they immediately dispatch an Action.
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators(ReduxActions, dispatch);
+}
+
+// ‘mapStateToProps’ and ‘mapDispatchToProps’ are two functions bound with ‘connect’ to the component: this makes Redux know that this component needs to be passed a piece of the state (everything under ‘userReducers’) and all the actions available in the app.
+// Just by doing this, we will have access to the login action and to the state of the app
+
+
+//Connect everything
+export default connect(mapStateToProps, mapDispatchToProps)(Logout);
 const styles = require('../../styles/login');

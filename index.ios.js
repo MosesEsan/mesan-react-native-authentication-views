@@ -4,11 +4,7 @@
  * Project: React Native Authentication Views
  */
 
-import {
-    AppRegistry
-} from 'react-native';
+import { AppRegistry } from 'react-native';
+import setup from './app/setup';
 
-
-import Main from './views/main.js'
-
-AppRegistry.registerComponent('ReactNativeRegisterLoginViews', () => Main);
+AppRegistry.registerComponent('ReactNativeRegisterLoginViews', () => setup());

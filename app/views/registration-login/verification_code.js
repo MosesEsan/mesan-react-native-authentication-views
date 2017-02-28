@@ -6,49 +6,42 @@
  */
 
 import React, { Component } from 'react';
-import {
-    Text, Platform,
-    View, Dimensions,
-    TextInput,TouchableHighlight,
-    LayoutAnimation, UIManager,
-    Alert, StatusBar
-} from 'react-native';
+import { Text, Platform, View, Dimensions, TextInput,TouchableOpacity, LayoutAnimation, UIManager, Alert, StatusBar } from 'react-native';
 
-import { Router, Scene, Actions} from 'react-native-router-flux';
-
-import LoginModel from '../../model/login-model.js';
 import NavBar from '../navbar/navbar.js'
-const BusyIndicator = require('react-native-busy-indicator');
-const loaderHandler = require('react-native-busy-indicator/LoaderHandler');
-
-
 var {width: windowWidth, height:windowHeight} = Dimensions.get('window');
-var _this;
 
-export default class Password extends Component {
+
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import * as ReduxActions from '../../actions';
+import { Actions } from 'react-native-router-flux';
+
+
+class VerifyCode extends Component {
 
     constructor(props){
         super(props)
         this.state = {
-            data: {one: "", two: "", three: "", four: "", five: ""}
+            one: "",
+            two: "",
+            three: "",
+            four: "",
+            five: ""
         }
     }
 
     componentDidMount() {
         UIManager.setLayoutAnimationEnabledExperimental &&   UIManager.setLayoutAnimationEnabledExperimental(true);
         if (Platform.OS === "ios") StatusBar.setBarStyle('default', true);
-
-        var data = this.state.data;
-        data["email"] = this.props.email;
-        this.setState({data: data, email: this.props.email})
     }
 
     render() {
-        _this = this;
         return (
             <View style={{position: "relative"}}>
                 <View style={[styles.loginContainer]}>
-                    <NavBar leftBtnImage={require('../../images/left-arrow-filled.png')} leftBtn={() => Actions.pop()} rightBtn={null}/>
+                    <NavBar leftBtnImage={require('../../../images/left-arrow-filled.png')}
+                             leftBtn={() => Actions.pop()} rightBtn={null}/>
                     <View style={[styles.login]}>
 
 
@@ -68,8 +61,8 @@ export default class Password extends Component {
                                 <View style={[{borderWidth:1, borderColor: "#9EA0A2", width: 50, marginLeft: 0, borderRadius: 3}]}>
                                     <View style={[]}>
                                         <TextInput style={[styles.codeInput]}
-                                                   value={this.state.data.one}
-                                                   onChangeText={(text) => this.onChangeText("one", text)}
+                                                   value={this.state.one}
+                                                   onChangeText={(text) => this.setState({"one" : text})}
                                                    maxLength={1}
                                                    autoFocus ={false}/>
                                     </View>
@@ -78,8 +71,8 @@ export default class Password extends Component {
                                 <View style={[{borderWidth:1, borderColor: "#9EA0A2", width: 50, marginLeft: 5, borderRadius: 3}]}>
                                     <View style={[]}>
                                         <TextInput style={[styles.codeInput]}
-                                                   value={this.state.data.two}
-                                                   onChangeText={(text) => this.onChangeText("two", text)}
+                                                   value={this.state.two}
+                                                   onChangeText={(text) => this.setState({"two" : text})}
                                                    maxLength={1}
                                                    autoFocus ={false}/>
                                     </View>
@@ -87,8 +80,8 @@ export default class Password extends Component {
                                 <View style={[{borderWidth:1, borderColor: "#9EA0A2", width: 50, marginLeft: 5, borderRadius: 3}]}>
                                     <View style={[]}>
                                         <TextInput style={[styles.codeInput]}
-                                                   value={this.state.data.three}
-                                                   onChangeText={(text) => this.onChangeText("three", text)}
+                                                   value={this.state.three}
+                                                   onChangeText={(text) => this.setState({"three" : text})}
                                                    maxLength={1}
                                                    autoFocus ={false}/>
                                     </View>
@@ -96,8 +89,8 @@ export default class Password extends Component {
                                 <View style={[{borderWidth:1, borderColor: "#9EA0A2", width: 50, marginLeft: 5, borderRadius: 3}]}>
                                     <View style={[]}>
                                         <TextInput style={[styles.codeInput]}
-                                                   value={this.state.data.four}
-                                                   onChangeText={(text) => this.onChangeText("four", text)}
+                                                   value={this.state.four}
+                                                   onChangeText={(text) => this.setState({"four" : text})}
                                                    maxLength={1}
                                                    autoFocus ={false}/>
                                     </View>
@@ -105,78 +98,68 @@ export default class Password extends Component {
                                 <View style={[{borderWidth:1, borderColor: "#9EA0A2", width: 50, marginLeft: 5, borderRadius: 3}]}>
                                     <View style={[]}>
                                         <TextInput style={[styles.codeInput]}
-                                                   value={this.state.data.five}
-                                                   onChangeText={(text) => this.onChangeText("five", text)}
+                                                   value={this.state.five}
+                                                   onChangeText={(text) => this.setState({"five" : text})}
                                                    maxLength={1}
                                                    autoFocus ={false}/>
                                     </View>
                                 </View>
                             </View>
-                            <TouchableHighlight onPress={this.verifyCode}
-                                                underlayColor={"rgba(129, 29, 55, .8)"}
+                            <TouchableOpacity onPress={this.verifyCode.bind(this)}
                                                 style={[styles.logInButton, {width: windowWidth - 50, borderRadius: 2, marginTop: 25}]}>
                                 <Text style={[styles.buttonText]}>Verify</Text>
-                            </TouchableHighlight>
+                            </TouchableOpacity>
                         </View>
                     </View>
-                    <BusyIndicator />
-
                 </View>
             </View>
         );
     }
 
-    onChangeText(key, value){
-        var data = _this.state.data;
-        data[key] = value;
-        _this.setState({data: data})
-    }
-
 
     verifyCode(){
-        var data = _this.state.data;
         var error = {};
         var errCount = 0;
 
-        if(data["one"].length === 0) errCount++;
-        if(data["two"].length === 0) errCount++;
-        if(data["three"].length === 0) errCount++;
-        if(data["four"].length === 0) errCount++;
-        if(data["five"].length === 0) errCount++;
+        if(this.state.one.length === 0) errCount++;
+        if(this.state.two.length === 0) errCount++;
+        if(this.state.three.length === 0) errCount++;
+        if(this.state.four.length === 0) errCount++;
+        if(this.state.five.length === 0) errCount++;
 
-        _this.setState({error: error});
+        this.setState({error: error});
 
-        if (errCount === 0){
-            let code = data["one"]+data["two"]+data["three"]+data["four"]+data["five"];
-            loaderHandler.showLoader("Please Wait..."); // Show indicator with message
-            LoginModel.verifyCode(code, function(success, message, error){
-               loaderHandler.hideLoader();  // Hide the loader
-               if(success) {
-                   Alert.alert(
-                       'Verification Successfully.',
-                       message,
-                       [
-                           {
-                               text: 'Continue', style: 'cancel', onPress: () => {
-                               Actions.pop()
-                           }
-                           },
-                       ]
-                   )
-               }else {
-                   Alert.alert(
-                       'Verification Failed!',
-                       error,
-                       [
-                           {
-                               text: 'Continue', style: 'cancel'
-                           },
-                       ]
-                   )
-                }
-            });
+        if (errCount === 0) {
+            var code = this.state.one+this.state.two+this.state.three+this.state.four+this.state.five;
+            // this.props.verifyCode(code);
+            Alert.alert(
+                'API Calls Disabled',
+                "API calls have been disabled for this demo.",
+                [
+                    {text: 'Ok', style: 'cancel'}
+                ]
+            )
         }
     }
 }
+
+// The function is used to take the Redux Store, then take some data from it,
+// and insert it into the props for our component.
+function mapStateToProps(state, props) {
+    return {};
+}
+
+// Doing this merges our actions into the component’s props,
+// while wrapping them in dispatch() so that they immediately dispatch an Action.
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators(ReduxActions, dispatch);
+}
+
+// ‘mapStateToProps’ and ‘mapDispatchToProps’ are two functions bound with ‘connect’ to the component: this makes Redux know that this component needs to be passed a piece of the state (everything under ‘userReducers’) and all the actions available in the app.
+// Just by doing this, we will have access to the login action and to the state of the app
+
+
+//Connect everything
+export default connect(mapStateToProps, mapDispatchToProps)(VerifyCode);
 
 const styles = require('../../styles/login');

@@ -19,11 +19,7 @@ const BLACK = "#333333";
 
 var styles = StyleSheet.create({
     container: {
-        //flex: 1,
-        //backgroundColor: 'rgb(184,62,73)',
         backgroundColor: '#D3222B',
-        //borderWidth: 1, borderColor: "red"
-
         position: "absolute", left: 0,
         top: 0,
         bottom: 0, right: 0,
@@ -44,18 +40,14 @@ var styles = StyleSheet.create({
     },
     logoContainer:{
         width: windowWidth,
-        //flex: 1,
         height:((windowHeight/2) / 2),
         justifyContent: 'center',
-        alignItems: 'center',
-        //backgroundColor: 'yellow',
-        //backgroundColor: 'rgb(184,62,73)',
+        alignItems: 'center'
     },
     smallLogoContainer:{
         height:64,
     },
     logo:{
-        //height: 50,
         marginTop: 45,
         paddingRight: 55
     },
@@ -109,8 +101,6 @@ var styles = StyleSheet.create({
         height: windowHeight - 94
     },
     overlay:{
-        //backgroundColor: '#ff6666',
-        //backgroundColor: 'rgba(0,0,0,.6)',
         backgroundColor:  'rgba(69,67,68, .6 )',
         position: 'absolute',
         top: 0,
@@ -123,16 +113,13 @@ var styles = StyleSheet.create({
 
     ///Log In
     loginContainer: {
-        //backgroundColor: 'rgb(184,62,73)',
         backgroundColor: 'white',
-        //borderWidth: 1, borderColor: "red",
         position: "absolute", left: 0,
         top: 0,
         bottom: 0, right: 0,
         height: windowHeight
     },
     login:{
-        //borderWidth: 1, borderColor: "red",
         height: windowHeight - NAVBAR_HEIGHT,
         marginTop: NAVBAR_HEIGHT,
         paddingLeft: 25, paddingRight: 25
@@ -178,7 +165,6 @@ var styles = StyleSheet.create({
         height: 45,
         flex:1,
         color: "#86858A",
-        //borderWidth:1, borderColor: "red",
         textAlign: "center", fontSize: 30
     },
     logInButton:{
@@ -193,10 +179,7 @@ var styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor:  "#CB1B22",
-        //marginTop: 20,
-        width: windowWidth,
-
-        //width: React.Dimensions.get('window').width - 50,
+        width: windowWidth
     },
     resendButton:{
         position: "absolute", bottom: 0
@@ -225,7 +208,6 @@ var styles = StyleSheet.create({
         width: windowWidth,
         height: (windowHeight/100) * 8.450704225352112,
         flexDirection: "row",
-        //borderWidth:1, borderColor: "purple",
     },
 
     hiddenBottom:{
@@ -263,10 +245,7 @@ var styles = StyleSheet.create({
     forgotWrapper:{
         marginTop: 20,
         borderColor: "#e4e6e8",
-        //borderBottomWidth: 1,
-        //borderColor: "rgb(249, 184, 156)",
-        borderWidth:1,
-        //borderColor: "purple",
+        borderWidth:1
     },
 
     forgotInput:{
