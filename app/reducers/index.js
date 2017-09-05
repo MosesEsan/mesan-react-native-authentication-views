@@ -6,7 +6,7 @@
 
 import { combineReducers } from 'redux';
 
-import userReducer from "./userReducer"
+import userReducer from "./auth"
 
 // Combine all the reducers
 // short hand property names

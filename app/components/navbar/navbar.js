@@ -32,19 +32,19 @@ var NavBar = React.createClass({
                 <View style={{marginTop: (Platform.OS === 'ios') ? 20 : 5, height: 44, overflow: "hidden", position: "relative"}}>
 
                     <View style={{flex: 1, paddingLeft:10, flexDirection: "row"}}>
-                        <TouchableOpacity style={[styles.backBtn]}
-                                          onPress={this.props.leftBtn}>
-                            <Image source={this.props.leftBtnImage} style={[styles.backButtonImage]}/>
-                        </TouchableOpacity>
                         {
-                            (this.props.rightBtn !== null) ?
-
+                            (this.props.leftBtn !== null) &&
+                                <TouchableOpacity style={[styles.backBtn]}
+                                                  onPress={this.props.leftBtn}>
+                                    <Image source={this.props.leftBtnImage} style={[styles.backButtonImage]}/>
+                                </TouchableOpacity>
+                        }
+                        {
+                            (this.props.rightBtn !== null) &&
                                 <TouchableOpacity style={[styles.forgotBtn]}
                                                   onPress={this.props.rightBtn}>
                                     <Text style={[styles.forgotTxt]}>FORGOT PASSWORD?</Text>
                                 </TouchableOpacity>
-                                :
-                                null
                         }
                     </View>
 

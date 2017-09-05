@@ -6,7 +6,7 @@
 
 import React, { Component } from 'react';
 
-import Main from './views/main'
+import Main from './index'
 
 import store from '../app/store';
 import { Provider } from 'react-redux';

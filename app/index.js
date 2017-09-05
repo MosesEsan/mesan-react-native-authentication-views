@@ -5,18 +5,17 @@
  */
 
 import React, { Component } from 'react';
-import { PanResponder} from 'react-native';
 
 import { Router, Scene } from 'react-native-router-flux';
 
-import Home from './home.js'
-import Welcome from './registration-login/welcome.js'
-import Login from './registration-login/login.js'
-import Register from './registration-login/register.js'
-import Password from './registration-login/password.js'
-import Verify from './registration-login/verify.js'
-import VerificationCode from './registration-login/verification_code.js'
-import LogOut from './registration-login/logout.js'
+import Home from './components/home.js'
+import Welcome from './components/auth/welcome.js'
+import Login from './components/auth/login.js'
+import Register from './components/auth/register.js'
+import Password from './components/auth/password.js'
+import Verify from './components/auth/verify.js'
+import VerificationCode from './components/auth/verification_code.js'
+import LogOut from './components/auth/logout.js'
 
 const navigationBarStyle = {
     backgroundColor: '#CB1B22',
@@ -31,16 +30,16 @@ const titleStyle = {
     fontSize: 17, textAlign:"center",
 };
 
-export default class Main extends Component {
+export default class extends Component {
     render() {
         return (
             <Router>
                 <Scene key="root" navigationBarStyle={navigationBarStyle} titleStyle={titleStyle}
-                       backButtonImage={require('../../images/back.png')}>
+                       backButtonImage={require('./images/back.png')}>
                     <Scene key="home" component={Home} title="Home" initial={true}/>
 
-                    <Scene key="login" hideNavBar={true} direction="vertical"  title="Login" >
-                        <Scene key="welcome" component={Welcome} title="Welcome"
+                    <Scene key="Auth" hideNavBar={true} direction="vertical"  title="Login" >
+                        <Scene key="Welcome" component={Welcome} title="Welcome"
                                initial={true} onLogin={this.props.onLogin}
                                schema="modal" panHandlers={null}/>
                         <Scene key="Login" component={Login} title="Login"/>

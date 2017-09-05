@@ -8,10 +8,12 @@
 import React, { Component } from 'react';
 import { Text, View, Dimensions, TextInput,TouchableHighlight } from 'react-native';
 
-import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import * as ReduxActions from '../../actions';
+import {logout} from '../../actions/auth'; //Import your actions
+
 import { Actions } from 'react-native-router-flux';
+import styles from '../../styles/login'
+
 
 var {width: windowWidth, height:windowHeight} = Dimensions.get('window');
 
@@ -50,22 +52,5 @@ class Logout extends Component {
     }
 }
 
-// The function is used to take the Redux Store, then take some data from it,
-// and insert it into the props for our component.
-function mapStateToProps(state, props) {
-    return {};
-}
-
-// Doing this merges our actions into the component’s props,
-// while wrapping them in dispatch() so that they immediately dispatch an Action.
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators(ReduxActions, dispatch);
-}
-
-// ‘mapStateToProps’ and ‘mapDispatchToProps’ are two functions bound with ‘connect’ to the component: this makes Redux know that this component needs to be passed a piece of the state (everything under ‘userReducers’) and all the actions available in the app.
-// Just by doing this, we will have access to the login action and to the state of the app
-
-
 //Connect everything
-export default connect(mapStateToProps, mapDispatchToProps)(Logout);
-const styles = require('../../styles/login');
+export default connect(null, {logout})(Logout);

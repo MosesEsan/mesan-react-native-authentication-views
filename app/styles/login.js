@@ -149,46 +149,8 @@ var styles = StyleSheet.create({
         position: "relative",
         //borderWidth: 1, borderColor: "red",
     },
-    textInputWrapper:{
-        marginBottom: 2,
-        borderBottomWidth: 1,
-        borderColor: "#D1D1D2"
-    },
-    textInput:{
-        height: 45,
-        flex:1,
-        fontSize: 15,
-        color: "#86858A",
-        textAlign: "left"
-    },
-    codeInput:{
-        height: 45,
-        flex:1,
-        color: "#86858A",
-        textAlign: "center", fontSize: 30
-    },
-    logInButton:{
-        height: (windowHeight/100) * 8.450704225352112,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor:  "#CB1B22",
-        width: windowWidth /2
-    },
-    socialButton:{
-        height: (windowHeight/100) * 8.450704225352112,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor:  "#CB1B22",
-        width: windowWidth
-    },
     resendButton:{
         position: "absolute", bottom: 0
-    },
-    buttonText:{
-        textAlign: 'center',
-        color: "#F2F3F4",
-        fontSize: 14    ,
-        fontWeight: "600"
     },
 
     forgotPasswordText: {
@@ -201,13 +163,19 @@ var styles = StyleSheet.create({
         width: windowWidth,
         justifyContent: 'center',
         alignItems: 'center',
+        borderWidth:1,
+        borderColor:"blue",
+        // backgroundColor: "green",
         //flexDirection: "row"
     },
 
-    btnContainer:{
+
+    btnContainer: {
         width: windowWidth,
-        height: (windowHeight/100) * 8.450704225352112,
+        height: (windowHeight / 100) * 8.450704225352112,
         flexDirection: "row",
+        borderWidth:1,
+        borderColor:"red"
     },
 
     hiddenBottom:{
@@ -263,6 +231,21 @@ var styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor:  "rgb(129, 29, 55)",
         marginTop: 20,
+    },
+
+    verificationCodeInput:{
+        height: 50,
+        width: ((windowWidth - 50 - 15) / 4),
+        marginRight: 5
+    },
+
+    codeInput:{
+        flex:1,
+        color: "#86858A",
+        textAlign: "center", fontSize: 30,
+        borderWidth:1,
+        borderColor: "#9EA0A2",
+        borderRadius: 3,
     },
 });
 

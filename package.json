@@ -6,11 +6,14 @@
     "start": "react-native start"
   },
   "dependencies": {
-    "react": "15.2.1",
-    "react-native": "^0.31.0",
-    "react-native-busy-indicator": "^1.0.9",
-    "react-native-facebook-login": "^1.3.0",
-    "react-native-router-flux": "^3.33.2",
-    "react-native-simple-modal": "^4.0.1"
+    "react": "16.0.0-alpha.12",
+    "react-native": "^0.47.1",
+    "react-native-busy-indicator": "^1.1.0",
+    "react-native-facebook-login": "^1.5.0",
+    "react-native-phone-input": "^0.1.8",
+    "react-native-router-flux": "^4.0.0-beta.21",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0"
   }
 }
