@@ -2,11 +2,11 @@
 Views include:
 
 <ul>
-<li>Sign Up</li>
-<li>Sign In</li>
-<li>Verify Account</li>
-<li>Verify SMS Code</li>
-<li>Forgot Password</li>
+<li>Register</li>
+<li>Login</li>
+<li>Account Verifcation</li>
+<li>Validate Verification Code</li>
+<li>Password Recovery</li>
 </ul>
 
 Based on design found on <a href="https://dribbble.com/shots/1908354-Powerdot-App-Signup-2">Dribbble.</a>
