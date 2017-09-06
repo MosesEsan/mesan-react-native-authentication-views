@@ -24,7 +24,8 @@ class Login extends Component {
     constructor(props){
         super(props)
         this.state = {
-            email: "test7@hotmail.com",
+            isLoading: false,
+            email: "test45@hotmail.com",
             password: "testpwd",
             error: {email: "", password: "", general:""}
         }
@@ -43,15 +44,14 @@ class Login extends Component {
                             <Text style={[styles.headerText2, {paddingRight: 75}]}>
                                 SIGN IN WITH YOUR E-MAIL
                             </Text>
-                            {/*<Text style={styles.subText}>*/}
-                                {/*<Text style={[styles.subText, {color:"#CB1B22"}]} onPress={() => Actions.Verify()}>Click here </Text>*/}
-                                {/*If you need to verify your account*/}
-                            {/*</Text>*/}
                         </View>
                         <View style={[styles.loginWrapper]}>
                             <View style={[styles.textInputContainer]}>
 
-                                <Text style={[styles.errorText]}>{this.state.error['general']}</Text>
+                                <Text style={[{color:"red",
+                                    marginTop: 5,
+                                    marginBottom: 5,
+                                    fontSize: 12}]}>{this.state.error['general']}</Text>
 
 
                                 <AuthTextInput
@@ -75,10 +75,10 @@ class Login extends Component {
                             </View>
 
                             <ButtonWithLoader
-                                onPress={this.onPress.bind(this)}
+                                onPress={(!this.state.isLoading) ? this.submit.bind(this) : null}
                                 btnText={"SIGN IN"}
-                                showLoader={(this.props.loggingIn) ? true : false}
-                                style={{width: windowWidth - 50, borderRadius: 2, marginTop: 15}}
+                                showLoader={(this.state.isLoading) ? true : false}
+                                style={{width: windowWidth - 50, borderRadius: 2}}
                             />
                         </View>
                     </View>
@@ -87,17 +87,11 @@ class Login extends Component {
         );
     }
 
-    onPress(){
-        if (!this.props.loggingIn) { //if not currently registering
-            this.submit();
-        }
-    }
 
     submit(){
         var state = this.state;
         var error = state.error;
         var errCount = 0;
-
 
         if (state.email.length <= 0) errCount++; //check email first
         error["email"] = (state.email.length <= 0) ? "Your email is required!" : "";
@@ -109,32 +103,29 @@ class Login extends Component {
 
         if (errCount <= 0) {
             var data = {email:state.email, password: state.password}
+            this.setState({isLoading:true});
             this.props.login(data, this.successCB.bind(this), this.errorCB.bind(this));
         }
     }
 
     successCB(verified, token) {
+        this.setState({isLoading:false});
         if (!verified) Actions.Verify({token: token}); //show the verify view
         else Actions.Home()
     }
 
     errorCB(err) {
+        this.setState({isLoading:false});
         var error = this.state.error;
 
-        error["general"] = err;
+        if (typeof err === "object" && err.email) error["email"] = err.email;
+        else if (typeof err === "string") error["general"] = err;
+
 
         this.setState({error: error});
     }
 }
 
-// The function is used to take the Redux Store, then take some data from it,
-// and insert it into the props for our component.
-function mapStateToProps(state, props) {
-    return {
-        loggingIn: state.userReducer.loggingIn,
-        loggedIn: state.userReducer.loggedIn
-    };
-}
 
 //Connect everything
-export default connect(mapStateToProps, {login})(Login);
+export default connect(null, {login})(Login);

@@ -16,12 +16,8 @@ var { NetInfo, Alert, AsyncStorage } = require('react-native');
 //     CODE_VERIFICATION_SUCCESS, CODE_VERIFICATION_FAILED,
 //     PASSWORD_REMINDER_SENT, PASSWORD_REMINDER_FAILED } from "./action_types";
 
-import {
-    REGISTERING, REGISTRATION_SUCCESS, REGISTRATION_FAILED,
-    LOGGING_IN, LOGIN_SUCCESS, LOGIN_FAILED, LOGGED_IN, LOGGED_OUT,
-    SMS_VERIFICATION_SENT,SMS_VERIFICATION_FAILED,
-} from "./action_types";
-import { NETWORK_ERROR, SERVER_ERROR, ERROR, ERROR_MSG, NETWORK_MSG, SERVER_MSG} from "../config";
+import {LOGIN_SUCCESS, LOGIN_FAILED, LOGGED_IN, LOGGED_OUT} from "./action_types";
+import { NETWORK_ERROR, SERVER_ERROR, ERROR, NETWORK_MSG, SERVER_MSG} from "../config";
 import api from '../api/auth';
 
 NetInfo.isConnected.addEventListener('change', () => {});
@@ -30,18 +26,12 @@ NetInfo.isConnected.addEventListener('change', () => {});
 //Register
 export function register(data, successCB, errorCB) {
     return (dispatch) => {
-        dispatch({type: REGISTERING});
         checkNetworkConnection(function () {
             api.register(data, "email", function (success, data, error) {
-                if (success){
-                    dispatch({type: REGISTRATION_SUCCESS});
-                    successCB(data);
-                } else if (error) {
-                    dispatch({type: REGISTRATION_FAILED});
-                    showError(error, errorCB)
-                }
+                if (success) successCB(data.token);
+                else if (error) showError(error, errorCB)
             });
-        }, () => dispatch({type: REGISTRATION_FAILED}))
+        }, errorCB);
     };
 }
 
@@ -50,22 +40,16 @@ export function registerWithFacebook(successCB, errorCB) {
     return (dispatch) => {
         checkNetworkConnection(function () {
             api.registerWithFacebook(function (success, data, error) {
-                if (success) {
-                    dispatch({type: LOGIN_SUCCESS, token: data.token});
-                    successCB();
-                } else if (error) {
-                    dispatch({type: LOGIN_FAILED});
-                    showError(error, errorCB)
-                }
+                if (success) successCB(data.token);
+                else if (error) showError(error, errorCB)
             });
-        }, () => dispatch({type: LOGIN_FAILED}))
+        }, errorCB);
     };
 }
 
 //Login
 export function login(data, successCB, errorCB) {
     return (dispatch) => {
-        dispatch({type: LOGGING_IN});
         checkNetworkConnection(function () {
             api.login(data, function (success, data, error) {
                 if (success) {
@@ -77,7 +61,7 @@ export function login(data, successCB, errorCB) {
                     showError(error, errorCB)
                 }
             });
-        }, () => dispatch({type: LOGIN_FAILED}))
+        }, errorCB);
     };
 }
 
@@ -86,13 +70,8 @@ export function sendEmailVerification(data, successCB, errorCB) {
     return (dispatch) => {
         checkNetworkConnection(function () {
         api.sendEmailVerification(data, function (success, data, error) {
-            if (success) {
-                dispatch({type: EMAIL_VERIFICATION_SENT});
-                successCB(data.message);
-            } else if (error) {
-                dispatch({type: EMAIL_VERIFICATION_FAILED});
-                showError(error.toString(), errorCB)
-            }
+            if (success)  successCB(data.message);
+            else if (error)  showError(error.toString(), errorCB)
         });
         }, null);
     };
@@ -101,21 +80,28 @@ export function sendEmailVerification(data, successCB, errorCB) {
 //Send SMS Verification
 export function sendVerificationCode(data, successCB, errorCB) {
     return (dispatch) => {
+        checkNetworkConnection(function () {
         api.sendVerificationCode(data, function (success, data, error) {
             if (success) successCB(data.message);
             else if (error) showError(error, errorCB)
         });
-
+        }, null);
     };
 }
 
 //Verify SMS Code
 export function verifyCode(data, successCB, errorCB) {
     return (dispatch) => {
+        var token = data.token;
+        checkNetworkConnection(function () {
         api.verifyCode(data, function (success, data, error) {
-            if (success) successCB(data.message);
+            if (success) {
+                dispatch({type: LOGIN_SUCCESS, token: token});
+                successCB(data.message);
+            }
             else if (error) showError(error, errorCB)
         });
+    }, null);
     };
 }
 
@@ -129,7 +115,7 @@ export function logout(successCB) {
                     successCB();
                 } else alert("Failed to log out. Please try again" + error);
             });
-        })
+        }, null);
     };
 }
 
@@ -141,7 +127,7 @@ export function recover(data, successCB, errorCB) {
                 if (success) successCB(data.message);
                 else if (error) showError(error, errorCB)
             });
-        })
+        }, null);
     };
 }
 

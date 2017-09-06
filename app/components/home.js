@@ -16,7 +16,7 @@ import {Actions} from 'react-native-router-flux';
 
 import {setStatus, logout} from '../actions/auth'; //Import your actions
 
-// import {Button} from './index'; //Import your Button
+import {Button} from './index'; //Import your Button
 
 // import styles from '../styles/index' //Import your styles
 
@@ -59,24 +59,16 @@ class Home extends Component {
 
     render() {
         return (
-            <View style={{position: "relative", marginTop: NAVBAR_HEIGHT, flex:1}}>
-                <View style={[styles.loginContainer]}>
-                    <View style={[styles.login, {justifyContent: "center", marginTop: 0}]}>
-                        <View style={[]}>
-
-                            {
-                                (this.props.loggedIn) &&
-                                <Text style={{textAlign: "center", marginBottom: 10}}>YOU ARE LOGGED IN</Text>
-                            }
-                            <TouchableHighlight onPress={this.logout.bind(this)}
-                                                underlayColor={"rgba(129, 29, 55, .8)"}
-                                                style={[styles.logInButton, {width: windowWidth - 50, borderRadius: 2}]}>
-                                <Text style={[styles.buttonText]}>LOG OUT</Text>
-                            </TouchableHighlight>
-                        </View>
-                    </View>
-
+            <View style={[{flex:1}]}>
+                <View style={[{flex:1, justifyContent:"center", alignItems:"center"}]}>
+                        {
+                            (this.props.loggedIn) &&
+                            <Text style={{textAlign: "center", marginBottom: 10}}>YOU ARE LOGGED IN</Text>
+                        }
+                        <Button onPress={this.logout.bind(this)}
+                                btnText={"LOG OUT"}/>
                 </View>
+
             </View>
         );
     }
@@ -93,15 +85,13 @@ class Home extends Component {
             (buttonIndex) => {
                 if (buttonIndex === 0) {
                     _this.props.logout(() => {
-                        alert("logged out")
+                        Actions.Auth();
                     });
                 }
             });
     }
 }
 
-// The function is used to take the Redux Store, then take some data from it,
-// and insert it into the props for our component.
 function mapStateToProps(state, props) {
     return {
         loggedIn: state.userReducer.loggedIn

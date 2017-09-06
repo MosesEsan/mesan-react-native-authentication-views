@@ -69,8 +69,8 @@ var AuthAPI = {
     },
 
     verifyCode: function(data, callback){
-        var url = API_URL + "phone/verify-code";
-        this.requestWithoutToken(url, data, callback);
+        var url = API_URL + "phone/verify-code?token=";
+        this.requestWithoutToken(url+data.token, data, callback);
     },
 
     logout(callback){
@@ -112,13 +112,17 @@ var AuthAPI = {
         }
 
         fetch(url, requestConfig)
-            .then((response) => response.json())
+            .then((response) => {
+                console.log(response)
+            return response.json()
+            })
             .then((responseData) => {
-            alert(responseData.data)
+            console.log(responseData.data)
                 if (responseData.success) callback(true, responseData.data, null)
                 else if (responseData.error) callback(false, null, {type: ERROR, error: responseData.error})
             })
             .catch(error => {
+                alert(error)
                 callback(false, null, {type: SERVER_ERROR, error:error})
             })
             .done();

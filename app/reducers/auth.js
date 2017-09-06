@@ -17,39 +17,19 @@ var NETWORK_FAILURE_MSG = "No Internet Connection. Please check your network con
 
 var React = require('react-native');
 var { Alert, AsyncStorage } = React;
-import { Actions } from 'react-native-router-flux';
 
-let userState = {loggingIn: false, loggedIn: false, registering: false};
+let userState = {loggedIn: false};
 
 const userReducer = (state = userState, action) => {
     switch (action.type) {
-
-        // REGISTER
-        case REGISTERING: //show activity indicator
-            state = Object.assign({}, state, {registering: true});
-            return state;
-
-        case REGISTRATION_SUCCESS:
-            state = Object.assign({}, state, {registering: false});
-            return state;
-
-        case REGISTRATION_FAILED:
-            state = Object.assign({}, state, {registering: false, loggedIn: false});
-            return state;
-
         // LOGIN
-        case LOGGING_IN: //show activity indicator
-            state = Object.assign({}, state, {loggingIn: true});
-            return state;
-
         case LOGIN_SUCCESS:
-            state = Object.assign({}, state, {loggingIn: false, loggedIn: true});
+            state = Object.assign({}, state, {loggedIn: true});
             AsyncStorage.setItem('token', action.token); //save the token
-            AsyncStorage.setItem('verified', action.verified); //save the verified flag
             return state;
 
         case LOGIN_FAILED:
-            state = Object.assign({}, state, {loggingIn: false, loggedIn: false});
+            state = Object.assign({}, state, {loggedIn: false});
             return state;
 
         case LOGGED_IN:
@@ -58,15 +38,7 @@ const userReducer = (state = userState, action) => {
 
         case LOGGED_OUT:
             AsyncStorage.removeItem('token'); //clear token on device
-            AsyncStorage.removeItem('verified'); //clear completed on device
             state = Object.assign({}, state, {loggedIn: false});
-            return state;
-
-
-
-        case NETWORK_FAILURE:  // Network Failure
-            state = Object.assign({}, state, {loggedIn: false, loggingIn: false, registering: false});
-            Alert.alert('Network Error', NETWORK_FAILURE_MSG, [{text: 'Ok', style: 'cancel'}]);
             return state;
 
         default:

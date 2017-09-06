@@ -26,8 +26,9 @@ class Register extends Component {
     constructor(props){
         super(props)
         this.state = {
+            isLoading: false,
             name: "John Brown",
-            email: "test@hotmail.com",
+            email: "test1@hotmail.com",
             password: "testpwd",
             password_confirmation: "testpwd",
             error: {name:"", email:"", password: "", password_confirmation:"", general:""},
@@ -90,9 +91,9 @@ class Register extends Component {
                         </View>
 
                         <ButtonWithLoader
-                            onPress={this.onPress.bind(this)}
+                            onPress={(!this.state.isLoading) ? this.submit.bind(this) : null}
                             btnText={"SIGN UP"}
-                            showLoader={(this.props.registering) ? true : false}
+                            showLoader={(this.state.isLoading) ? true : false}
                             style={{width: windowWidth - 50, borderRadius: 2, position: "absolute", bottom: 15}}
                         />
                     </View>
@@ -100,12 +101,6 @@ class Register extends Component {
                 </View>
             </View>
         );
-    }
-
-    onPress(){
-        if (!this.props.registering) { //if not currently registering
-            this.submit();
-        }
     }
 
     submit() {
@@ -135,29 +130,23 @@ class Register extends Component {
                 password_confirmation: this.state.password_confirmation,
             }
 
+            this.setState({isLoading:true});
             this.props.register(data, this.successCB.bind(this), this.errorCB.bind(this));
-            //
-            // Alert.alert(
-            //     'API Calls Disabled',
-            //     "API calls have been disabled for this demo.",
-            //     [
-            //         {text: 'Ok', style: 'cancel'}
-            //     ]
-            // )
         }
     }
 
-    successCB(data) {
-        const {navigate} = this.props.navigation;
-        navigate('Verify') //show the Verify view
+    successCB(token) {
+        this.setState({isLoading:false});
+        Actions.Verify({token: token}); //show the verify view
     }
 
     errorCB(err) {
+        this.setState({isLoading:false});
         var error = this.state.error;
-        err = JSON.parse(err);
 
-        if (err.email) error["email"] = err.email;
-        else error["general"] = err;
+        if (typeof err === "object" && err.email) error["email"] = err.email;
+        else if (typeof err === "string") error["general"] = err;
+
 
         this.setState({error: error});
     }

@@ -5,15 +5,17 @@
 'use strict';
 
 import React, {Component} from 'react';
-var {View, Text, TouchableOpacity, TextInput, ActivityIndicator} = require('react-native');
+var {View, Text, TouchableOpacity, TouchableHighlight, TextInput, ActivityIndicator} = require('react-native');
 
 import styles from '../styles/index'
 import auth_styles from '../styles/auth'
 
+
+
 export class Button extends Component {
     render() {
         return (
-            <TouchableOpacity onPress={this.props.onPress}>
+            <TouchableHighlight onPress={this.props.onPress}>
                 <View style={[
                     (this.props.social) ? styles.socialButton : styles.logInButton,
                     (this.props.style) && this.props.style]}>
@@ -21,7 +23,7 @@ export class Button extends Component {
                         {this.props.btnText}
                     </Text>
                 </View>
-            </TouchableOpacity>
+            </TouchableHighlight>
         );
     }
 }
@@ -29,7 +31,7 @@ export class Button extends Component {
 export class ButtonWithLoader extends Component {
     render() {
         return (
-            <TouchableOpacity onPress={this.props.onPress}>
+            <TouchableHighlight onPress={this.props.onPress}>
                 <View style={[styles.logInButton, (this.props.style) && this.props.style]}>
                     {
                         (!this.props.showLoader) ?
@@ -43,7 +45,7 @@ export class ButtonWithLoader extends Component {
                             />
                     }
                 </View>
-            </TouchableOpacity>
+            </TouchableHighlight>
         );
     }
 }
@@ -76,18 +78,28 @@ export class AuthTextInput extends Component {
 export class PhoneTextInput extends Component {
     render() {
         return (
-            <View style={[auth_styles.inputContainer, {flex:1, marginLeft:5}]}>
-                <TextInput
-                    onChangeText={this.props.onChangeText}
-                    placeholder={this.props.placeholder}
-                    autoFocus={this.props.autoFocus}
-                    style={[ {flex:1, textAlign:"center"}]}
-                    value={this.props.value}
-                    secureTextEntry={this.props.secureTextEntry}
-                    autoCapitalize='none'
-                    clearButtonMode='while-editing'
-                    keyboardType='phone-pad'
-                />
+            <View style={{borderWidth: 0, marginBottom: 15, borderColor: "green",}}>
+
+                <View style={[{flexDirection: "row", borderWidth: 0,}]}>
+                    {this.props.countryCodeComponent}
+                    <TextInput
+                        onChangeText={this.props.onChangeText}
+                        placeholder={this.props.placeholder}
+                        autoFocus={this.props.autoFocus}
+                        style={[{flex: 1, textAlign: "center", marginLeft: 5,
+                            borderBottomWidth: .5,
+                            borderColor: "#ccc"}]}
+                        value={this.props.value}
+                        secureTextEntry={this.props.secureTextEntry}
+                        autoCapitalize='none'
+                        clearButtonMode='while-editing'
+                        keyboardType='phone-pad'
+                    />
+                </View>
+                {
+                    (this.props.error.length > 0 ) &&
+                    <Text style={[auth_styles.errorText]}>{this.props.error}</Text>
+                }
             </View>
         );
     }

@@ -8,19 +8,13 @@
 'use strict';
 
 import React, {Component} from 'react';
-import {
-    Text, Platform,
-    View, Dimensions,
-    TextInput, TouchableOpacity, ActivityIndicator,
-    LayoutAnimation, UIManager,
-    Alert, StatusBar
-} from 'react-native';
+import { Text, View, Dimensions, Alert } from 'react-native';
 
 import {connect} from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 
 
-import { Button, AuthTextInput } from '../index';
+import { ButtonWithLoader, AuthTextInput } from '../index';
 import NavBar from '../navbar/navbar.js'
 import {recover} from '../../actions/auth'; //Import your actions
 import styles from '../../styles/login'
@@ -67,9 +61,12 @@ class Password extends Component {
                                 />
                             </View>
 
-                            <Button onPress={this.submit.bind(this)}
-                                    btnText={"SUBMIT"}
-                                    style={{width: windowWidth - 50, borderRadius: 2, marginTop: 15}}/>
+                            <ButtonWithLoader
+                                onPress={(!this.state.isLoading) ? this.submit.bind(this) : null}
+                                btnText={"SUBMIT"}
+                                showLoader={(this.state.isLoading) ? true : false}
+                                style={{width: windowWidth - 50, borderRadius: 2}}
+                            />
                         </View>
                     </View>
 
@@ -90,21 +87,23 @@ class Password extends Component {
 
         if (errCount <= 0) {
             var data = {email:state.email}
+            this.setState({isLoading: true});
             this.props.recover(data, this.successCB.bind(this), this.errorCB.bind(this));
         }
     }
 
     successCB(message) {
+        this.setState({isLoading: false});
         const {goBack} = this.props.navigation;
         Alert.alert('Password Reset Sent', message, [{text: 'Ok', style: 'cancel'}]);
         goBack();
     }
 
     errorCB(err) {
+        this.setState({isLoading: false});
         var error = this.state.error;
-        // err = JSON.parse(err);
-        //
-        if (err.email) error["email"] = err.email;
+
+        if (typeof err === "object" && err.email) error["email"] = err.email;
         else error["general"] = err;
 
         this.setState({error: error});

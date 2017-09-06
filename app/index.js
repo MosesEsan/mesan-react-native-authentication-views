@@ -5,50 +5,65 @@
  */
 
 import React, { Component } from 'react';
+import { StyleSheet, Platform } from 'react-native';
 
-import { Router, Scene } from 'react-native-router-flux';
+import { Router, Scene, Reducer } from 'react-native-router-flux';
 
-import Home from './components/home.js'
-import Welcome from './components/auth/welcome.js'
-import Login from './components/auth/login.js'
-import Register from './components/auth/register.js'
-import Password from './components/auth/password.js'
-import Verify from './components/auth/verify.js'
-import VerificationCode from './components/auth/verification_code.js'
-import LogOut from './components/auth/logout.js'
+import {HomeScreen, WelcomeScreen, RegisterScreen, LoginScreen, PasswordScreen, VerifyScreen, VerificationCode} from "./scenes"
 
-const navigationBarStyle = {
-    backgroundColor: '#CB1B22',
-    overflow: "hidden",
-    position: "absolute",
-    top: 0, left: 0, right: 0
+const reducerCreate = params => {
+    const defaultReducer = new Reducer(params);
+    return (state, action) => {
+        return defaultReducer(state, action);
+    };
 };
 
-const titleStyle = {
-    color: "#FFFFFF",
-    fontWeight:"500",
-    fontSize: 17, textAlign:"center",
-};
+const getSceneStyle = () => ({
+    backgroundColor: "#F5FCFF",
+    shadowOpacity: 1,
+    shadowRadius: 3,
+});
+
+
+const styles = StyleSheet.create({
+    navigationBarStyle: {
+        backgroundColor: '#CB1B22',
+        ...Platform.select({
+            android: {
+                borderBottomWidth: 0
+            },
+        }),
+    },
+
+    titleStyle: {
+        color: "#FFFFFF",
+        fontWeight: "500",
+        fontSize: 17,
+        ...Platform.select({
+            ios: {},
+            android: {
+                alignSelf: 'flex-start',
+                textAlign: 'left',
+                paddingLeft: 15
+            },
+        }),
+    }
+});
 
 export default class extends Component {
     render() {
         return (
-            <Router>
-                <Scene key="root" navigationBarStyle={navigationBarStyle} titleStyle={titleStyle}
-                       backButtonImage={require('./images/back.png')}>
-                    <Scene key="home" component={Home} title="Home" initial={true}/>
-
-                    <Scene key="Auth" hideNavBar={true} direction="vertical"  title="Login" >
-                        <Scene key="Welcome" component={Welcome} title="Welcome"
-                               initial={true} onLogin={this.props.onLogin}
-                               schema="modal" panHandlers={null}/>
-                        <Scene key="Login" component={Login} title="Login"/>
-                        <Scene key="Password" component={Password} title="Password"/>
-                        <Scene key="Register" component={Register} title="Register"/>
-                        <Scene key="Verify" component={Verify} title="Verify"/>
+            <Router createReducer={reducerCreate} getSceneStyle={getSceneStyle}>
+                <Scene key="root" navigationBarStyle={styles.navigationBarStyle} titleStyle={styles.titleStyle} backButtonImage={require('./images/back.png')}>
+                    <Scene key="Home" component={HomeScreen} title="Home" initial={true}/>
+                    <Scene key="Auth" hideNavBar={true}>
+                        <Scene key="Welcome" component={WelcomeScreen} title="Welcome" initial={true}/>
+                        <Scene key="Login" component={LoginScreen} title="Login"/>
+                        <Scene key="Password" component={PasswordScreen} title="Password"/>
+                        <Scene key="Register" component={RegisterScreen} title="Register"/>
+                        <Scene key="Verify" component={VerifyScreen} title="Verify"/>
                         <Scene key="VerificationCode" component={VerificationCode} title="VerificationCode"/>
                     </Scene>
-                    <Scene key="logout" component={LogOut} title="LogOut"direction="vertical" schema="modal" hideNavBar={true}/>
                 </Scene>
             </Router>
         )

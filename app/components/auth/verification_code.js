@@ -24,8 +24,8 @@ var {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
 import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
-import {verifyCode} from '../../actions/auth'; //Import your actions
-import {Button} from '../index';
+import {verifyCode, sendVerificationCode} from '../../actions/auth'; //Import your actions
+import {ButtonWithLoader} from '../index';
 
 class VerifyCodeInput extends Component {
 
@@ -48,10 +48,11 @@ class VerifyCode extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            one: "4",
-            two: "4",
-            three: "2",
-            four: "2",
+            isLoading: false,
+            one: "5",
+            two: "2",
+            three: "1",
+            four: "8",
             error: {general: ""}
         }
     }
@@ -79,28 +80,35 @@ class VerifyCode extends Component {
 
 
                         <View style={[styles.loginWrapper]}>
+                            <View style={[styles.textInputContainer]}>
 
-                            <Text style={[{color:"red",
-                                marginTop: 5,
-                                marginBottom: 5,
-                                fontSize: 12}]}>{this.state.error["general"]}</Text>
-
-                            <View style={[{height: 50}]}>
-                                <View style={{flexDirection: "row", height: 50}}>
-                                    <VerifyCodeInput value={this.state.one}
-                                                     onChangeText={(text) => this.setState({"one": text})}/>
-                                    <VerifyCodeInput value={this.state.two}
-                                                     onChangeText={(text) => this.setState({"two": text})}/>
-                                    <VerifyCodeInput value={this.state.three}
-                                                     onChangeText={(text) => this.setState({"three": text})}/>
-                                    <VerifyCodeInput value={this.state.four}
-                                                     onChangeText={(text) => this.setState({"four": text})}/>
-                                </View>
+                            <View style={{flexDirection: "row", height: 50}}>
+                                <VerifyCodeInput value={this.state.one}
+                                                 onChangeText={(text) => this.setState({"one": text})}/>
+                                <VerifyCodeInput value={this.state.two}
+                                                 onChangeText={(text) => this.setState({"two": text})}/>
+                                <VerifyCodeInput value={this.state.three}
+                                                 onChangeText={(text) => this.setState({"three": text})}/>
+                                <VerifyCodeInput value={this.state.four}
+                                                 onChangeText={(text) => this.setState({"four": text})}/>
                             </View>
 
-                            <Button onPress={this.verifyCode.bind(this)}
-                                    btnText={"Verify"}
-                                    style={{width: windowWidth - 50, borderRadius: 2, marginTop: 15}}/>
+                                <Text style={[{color:"red",
+                                    marginTop: 5,
+                                    marginBottom: 5,
+                                    fontSize: 12}]}>{this.state.error["general"]}</Text>
+                            </View>
+
+                            <ButtonWithLoader
+                                onPress={(!this.state.isLoading) ? this.verifyCode.bind(this) : null}
+                                btnText={"Verify"}
+                                showLoader={(this.state.isLoading) ? true : false}
+                                style={{width: windowWidth - 50, borderRadius: 2}}
+                            />
+                            <Text onPress={this.resendVerification.bind(this)}
+                                  style={{marginTop: 25, fontWeight:"600", fontSize:16, textAlign:"center", color:"#CB1B22"}}>
+                                Resend Code</Text>
+
                         </View>
                     </View>
                 </View>
@@ -108,6 +116,14 @@ class VerifyCode extends Component {
         );
     }
 
+    resendVerification() {
+        var data = {
+            country_code: this.props.country_code,
+            phone_number: this.props.phone_number
+        }
+        
+        this.props.sendVerificationCode(data, (message) => {alert(message)}, this.errorCB.bind(this));
+    }
 
     verifyCode() {
         var error = {};
@@ -125,30 +141,30 @@ class VerifyCode extends Component {
             var data = {
                 verification_code: verification_code,
                 country_code: this.props.country_code,
-                phone_number: this.props.phone_number
+                phone_number: this.props.phone_number,
+                token: this.props.token
             }
+            this.setState({isLoading: true});
             this.props.verifyCode(data, this.successCB.bind(this), this.errorCB.bind(this));
         }
     }
 
     successCB(message) {
+        this.setState({isLoading: false});
         Actions.Home();
     }
 
     errorCB(err) {
+        this.setState({isLoading: false});
         var error = this.state.error;
-        console.log("<===>")
-        console.log(err)
-        console.log("<===>")
-        // err = JSON.parse(err);
 
-        error["general"] = err;
+        if (typeof err === "string") error["general"] = err;
 
         this.setState({error: error});
     }
 }
 
 //Connect everything
-export default connect(null, {verifyCode})(VerifyCode);
+export default connect(null, {verifyCode, sendVerificationCode})(VerifyCode);
 
 const styles = require('../../styles/login');
